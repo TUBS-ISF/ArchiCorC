@@ -1,6 +1,6 @@
-# ContractIDE
+# ArchiCorC (formerly ContractIDE)
 
-An extensible framework for multi-viewpoint contracts.
+An extensible framework for CBSE that interfaces with CorC via an interface description language.
 
 ## Installation (briefly explained)
 
@@ -12,3 +12,6 @@ An extensible framework for multi-viewpoint contracts.
 ## Updating
 
 * Whenever a new release is deployed, go to **Help > Check for Updates** to install updates.
+
+## More
+[tbd]
