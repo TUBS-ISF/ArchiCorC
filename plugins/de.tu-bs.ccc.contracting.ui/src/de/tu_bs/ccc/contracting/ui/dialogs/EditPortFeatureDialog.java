@@ -20,6 +20,7 @@ import org.eclipse.swt.widgets.Text;
 import de.tu_bs.ccc.contracting.Verification.DirectionType;
 import de.tu_bs.ccc.contracting.Verification.PortType;
 import de.tu_bs.ccc.contracting.Verification.Ports;
+import de.tu_bs.ccc.contracting.edl.events.EventType;
 import de.tu_bs.ccc.contracting.idl.cidl.Interface;
 import de.tu_bs.ccc.contracting.ui.localization.StringTable;
 import de.tu_bs.ccc.contracting.ui.provider.ListTypeLabelProvider;
@@ -38,13 +39,15 @@ public abstract class EditPortFeatureDialog extends TitleAreaDialog implements I
 	private String currentFilter;
 	private Label lbService;
 	private List<Interface> interfaces;
+	private List<EventType> events;
 	private List<String> types;
 	protected Object object;
 
-	public EditPortFeatureDialog(Shell parentShell, List<String> types, List<Interface> interfaces) {
+	public EditPortFeatureDialog(Shell parentShell, List<String> types, List<Interface> interfaces, List<EventType> events) {
 		super(parentShell);
 		this.types = types;
 		this.interfaces = interfaces;
+		this.events = events;
 	}
 
 	@Override
@@ -175,14 +178,21 @@ public abstract class EditPortFeatureDialog extends TitleAreaDialog implements I
 			 public void widgetSelected(SelectionEvent event) {
 				final ListTypesDialog dialog = new ListTypesDialog(null, new ListTypeLabelProvider(),
 						StringTable.EDIT_PORT_DIALOG_LIST_SERVICES_TITLE,
-						StringTable.EDIT_PORT_DIALOG_LIST_SERVICES_MSG, types, interfaces);
+						StringTable.EDIT_PORT_DIALOG_LIST_SERVICES_MSG, types, interfaces, events);
 
 				if (dialog.open() != ListServicesDialog.CANCEL) {
 					if (dialog.getResult().length > 0) {
-						if(dialog.getResult()[0] instanceof String)
+						if(dialog.getResult()[0] instanceof String) {
 							portTypename.setText((String) dialog.getResult()[0]);
-						else
+							currentTypename = "DATA";
+						} else if(dialog.getResult()[0] instanceof Interface) {
 							portTypename.setText(((Interface) dialog.getResult()[0]).getName());
+							currentTypename = "SERVICE";
+						}
+						else {
+							portTypename.setText(((EventType) dialog.getResult()[0]).getName());
+							currentTypename = "EVENT";
+						}
 					}
 				}
 			}
@@ -215,8 +225,15 @@ public abstract class EditPortFeatureDialog extends TitleAreaDialog implements I
 	public void setNewProperties() {
 		Ports port = (Ports) object;
 		port.setName(portName.getText());
-		port.setType(PortType.get(types.contains(portTypename.getText()) ? "JAVA" : "SERVICE"));
-		port.setService(portTypename.getText());
+		if(types.contains(portTypename.getText())) {
+			port.setType(PortType.get("DATA"));
+			port.setService(portTypename.getText());
+		}
+		else {
+			port.setType(PortType.get(currentTypename));
+			port.setService(portTypename.getText());
+		}
+		
 		port.setFilter(portFilter.getText());
 	}
 }

@@ -24,6 +24,7 @@ import de.tu_bs.ccc.contracting.Verification.DirectionType;
 import de.tu_bs.ccc.contracting.Verification.PortType;
 import de.tu_bs.ccc.contracting.Verification.Ports;
 import de.tu_bs.ccc.contracting.Verification.ProviderType;
+import de.tu_bs.ccc.contracting.edl.events.EventType;
 import de.tu_bs.ccc.contracting.idl.cidl.Interface;
 import de.tu_bs.ccc.contracting.ui.localization.StringTable;
 import de.tu_bs.ccc.contracting.ui.provider.ListServiceLabelProvider;
@@ -37,8 +38,8 @@ public class EditConsumerPortFeatureDialog extends EditPortFeatureDialog {
 	private String currentLabel;
 	private String currentFunction;
 
-	public EditConsumerPortFeatureDialog(Shell parentShell, List<String> types, List<Interface> interfaces) {
-		super(parentShell, types, interfaces);
+	public EditConsumerPortFeatureDialog(Shell parentShell, List<String> types, List<Interface> interfaces, List<EventType> events) {
+		super(parentShell, types, interfaces, events);
 	}
 
 	private void createFunction(Composite container) {

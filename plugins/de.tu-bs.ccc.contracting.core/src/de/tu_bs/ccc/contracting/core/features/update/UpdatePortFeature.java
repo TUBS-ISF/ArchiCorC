@@ -42,11 +42,15 @@ public class UpdatePortFeature extends AbstractUpdateFeature {
 			String suffix = "";
 			if (port.getType().getValue() == PortType.SERVICE_VALUE) {
 				suffix += " : " + port.getService();
+			} else if (port.getType().getValue() == PortType.EVENT_VALUE) {
+				suffix += " : " + port.getEvent();
 			}
 			boolean triggerupdate = false;
 			
 			String subtext;
 			if (port.getType().getValue() == PortType.SERVICE_VALUE) 
+				subtext = port.getType().toString();
+			else if (port.getType().getValue() == PortType.EVENT_VALUE) 
 				subtext = port.getType().toString();
 			else
 				subtext = port.getService();
@@ -84,13 +88,19 @@ public class UpdatePortFeature extends AbstractUpdateFeature {
 			String suffix = "";
 			if (port.getType().getValue() == PortType.SERVICE_VALUE) {
 				suffix += " : " + port.getService();
+			} else if (port.getType().getValue() == PortType.EVENT_VALUE) {
+				suffix += " : " + port.getEvent();
 			}
+			
 			nameText.setValue(port.getName() + suffix);
 			Text typeText = (Text) type.getGraphicsAlgorithm();
 			if (port.getType().getValue() == PortType.SERVICE_VALUE) 
 				typeText.setValue(port.getType().toString());
+			else if (port.getType().getValue() == PortType.EVENT_VALUE) 
+				typeText.setValue(port.getType().toString());
 			else
 				typeText.setValue(port.getService());
+			
 			typeText.setWidth(cs.getGraphicsAlgorithm().getWidth());
 			nameText.setWidth(cs.getGraphicsAlgorithm().getWidth());
 

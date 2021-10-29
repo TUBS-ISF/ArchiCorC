@@ -87,10 +87,12 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="providerType" eType="#//ProviderType"
         defaultValueLiteral="NATIVE"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="isDerived" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="event" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="PortType">
     <eLiterals name="SERVICE" value="2"/>
     <eLiterals name="DATA" value="1" literal="DATA"/>
+    <eLiterals name="EVENT" value="2"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ContractProperty">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="propertyTipe" eType="#//PropertyType"

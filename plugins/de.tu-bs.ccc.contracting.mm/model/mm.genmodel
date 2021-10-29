@@ -17,6 +17,7 @@
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="mm.ecore#//PortType">
       <genEnumLiterals ecoreEnumLiteral="mm.ecore#//PortType/SERVICE"/>
       <genEnumLiterals ecoreEnumLiteral="mm.ecore#//PortType/DATA"/>
+      <genEnumLiterals ecoreEnumLiteral="mm.ecore#//PortType/EVENT"/>
     </genEnums>
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="mm.ecore#//ViewPoint">
       <genEnumLiterals ecoreEnumLiteral="mm.ecore#//ViewPoint/FUNCTIONAL"/>
@@ -95,6 +96,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute mm.ecore#//Ports/function"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute mm.ecore#//Ports/providerType"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute mm.ecore#//Ports/isDerived"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute mm.ecore#//Ports/event"/>
     </genClasses>
     <genClasses ecoreClass="mm.ecore#//ContractProperty">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute mm.ecore#//ContractProperty/propertyTipe"/>

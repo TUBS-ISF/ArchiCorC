@@ -1,0 +1,62 @@
+grammar tu_bs.cs.isf.mapping.Mapping with org.eclipse.xtext.common.Terminals
+
+generate mapping "http://www.cs.tu_bs/isf/mapping/Mapping"
+
+import "http://www.eclipse.org/emf/2002/Ecore" as ecore
+
+MappingModel returns MappingModel:
+	{MappingModel}
+	(annotations+=Annotation)*
+	(imports+=Import)*
+	(mappings+=Mapping)*;
+
+Annotation returns Annotation:
+	{Annotation}
+	annotation=Version|Bundle|Date|Author;
+
+Version:
+	'version:' name=EString;
+
+Bundle:
+	'bundle:' name=EString;
+
+Date:
+	'date:' name=EString;
+	
+Author:
+	'author:' name=EString;
+	
+Import returns Import:
+	{Import}
+	'import' name=EString;
+
+Mapping returns Mapping:
+	{Mapping}
+	'map' name=EString '{'
+		('export')? component=Component
+	'}';
+
+Component returns Component:
+	{Component}
+	name=EString '{'
+		(mappingPair+=MappingPair)*
+	'}';
+	
+MappingPair returns MappingPair:
+	{MappingPair}
+	port=ServiceMethod '->' diagram=CbcDiagram ';'
+;
+	
+ServiceMethod returns ServiceMethod:
+	{ServiceMethod}
+	name=FQN;
+
+CbcDiagram returns CbcDiagram:
+	{CbcDiagram}
+	name=EString|'null';
+	
+FQN:
+	ID ('.' ID)*;
+	
+EString returns ecore::EString:
+	STRING | ID('/' ID)*('.' ID)* | INT('.' INT)*;

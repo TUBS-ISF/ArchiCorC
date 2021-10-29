@@ -1,0 +1,49 @@
+grammar de.tu_bs.ccc.contracting.edl.Events with org.eclipse.xtext.common.Terminals
+
+generate events "http://www.tu_bs.de/ccc/contracting/edl/Events"
+
+import "http://www.eclipse.org/emf/2002/Ecore" as ecore
+
+Model returns Model:
+	{Model}
+	'package' name=FQN
+	(imports+=Import)*
+	(eventCollection+=EventType)*;
+	
+EventType returns EventType:
+	{EventType}
+	(comment=AnnotationBlock)?
+	'EventType' (name=ID)?
+	'{'
+		events += Event
+		(
+			',' events += Event
+		)*
+	'}';
+	
+Event:
+	element=ID ('=' default?='default')?;
+	
+AnnotationBlock returns AnnotationBlock:
+	'/*' (elements+=Annotation)+ '*/';
+	
+Annotation returns Annotation:
+	rawText=ANNOTATION_STRING;
+	
+terminal ANNOTATION_STRING returns ecore::EString:
+	'@' (('a'..'z')|'-')+ (' '|'\t')* ':'
+	( ('\\' ('b'|'t'|'n'|'f'|'r'|'u'|'"'|"'"|'\\')) | ('\\*'|'\\@') | !('\\'|'*'|'@') )*
+;
+	
+Import :
+	'import' (importedNamespace=ImportedFQN 'from' | 'model') importURI=STRING;
+
+ImportedFQN:
+	FQN ('.' '*')?;
+
+FQN:
+	ID ('.' ID)*;
+
+// this is used for overloaded FMethod and FBroadcast
+ID_WITH_SELECTOR:
+	ID (':' ID)?;

@@ -15,6 +15,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import de.tu_bs.ccc.contracting.core.util.PortTypeManager;
+import de.tu_bs.ccc.contracting.edl.events.EventType;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
@@ -31,6 +32,7 @@ import de.tu_bs.ccc.contracting.idl.cidl.Model;
 import de.tu_bs.ccc.contracting.ui.dialogs.EditConsumerPortFeatureDialog;
 import de.tu_bs.ccc.contracting.ui.dialogs.EditPortFeatureDialog;
 import de.tu_bs.ccc.contracting.ui.dialogs.EditProviderPortFeatureDialog;
+import de.tu_bs.ccc.contracting.edl.EdlPersistenceManager;
 
 public class EditPortFeature extends AbstractCustomFeature {
 	private boolean changed = true;
@@ -64,14 +66,18 @@ public class EditPortFeature extends AbstractCustomFeature {
 		List<Interface> interfaces = CidlPersistenceManager.getIdlModels(CoreUtil.getCurrentProject()).stream()
 				.map(m -> ((Model) m).getInterfaces()).flatMap(i -> i.stream()).collect(Collectors.toList());
 
+		List<EventType> events = EdlPersistenceManager.getEdlModels(CoreUtil.getCurrentProject()).stream()
+				.map(m -> ((de.tu_bs.ccc.contracting.edl.events.Model) m).getEventCollection()).flatMap(i -> i.stream())
+				.collect(Collectors.toList());
+
 		// get all allowed java types for the ports
 		List<String> types = PortTypeManager.getTypes();
 
 		EditPortFeatureDialog dialog;
 		if (((Ports) object).getOuterDirection() == DirectionType.INTERNAL)
-			dialog = new EditConsumerPortFeatureDialog(shell, types, interfaces);
+			dialog = new EditConsumerPortFeatureDialog(shell, types, interfaces, events);
 		else
-			dialog = new EditProviderPortFeatureDialog(shell, types, interfaces);
+			dialog = new EditProviderPortFeatureDialog(shell, types, interfaces, events);
 
 		IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
 		IWorkbenchPage activePage = window.getActivePage();

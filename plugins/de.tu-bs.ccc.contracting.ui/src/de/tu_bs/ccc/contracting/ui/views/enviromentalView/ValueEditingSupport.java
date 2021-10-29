@@ -8,9 +8,6 @@ import org.eclipse.jface.viewers.ColumnViewer;
 import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.swt.widgets.Composite;
-
-import de.tu_bs.ccc.contracting.Verification.EnviromentalProperties;
-import de.tu_bs.ccc.contracting.Verification.Module;
 import de.tu_bs.ccc.contracting.Verification.Property;
 
 public class ValueEditingSupport extends EditingSupport {

@@ -1,0 +1,484 @@
+grammar de.tu_bs.ccc.contracting.Behavior with org.eclipse.xtext.common.Terminals
+
+generate behavior "http://www.tu_bs.de/ccc/contracting/Behavior"
+
+import "http://www.eclipse.org/emf/2002/Ecore" as ecore
+
+BehaviorModel returns BehaviorModel:
+	{BehaviorModel}
+	'package' name=FQN
+	(imports+=Import)*
+	(behaviors+=Behavior)*;
+	
+Behavior returns Behavior:
+	{Behavior}
+	(comment=AnnotationBlock)?
+	'Behavior' (name=ID)? ('implements' componentName=ID)?
+	'{'
+		('vars' '{' (variables+=FDeclaration (';')?)* '}')?
+		('events' '{' (events+=EventBinding (';')?)* '}')?
+		('signals' '{' (signals+=Signal (';')?)* '}')?
+		(operations+=StandardOperation)*
+		'FSM' (name=ID)? (stateGraphs+=FStateGraph)*
+	'}';
+	
+Signal returns Signal:
+	{Signal}
+	(comment=AnnotationBlock)?
+	signal=SignalSignature
+;
+
+SignalSignature:
+	name=ID ('(' (arguments+=VarDecl (',' arguments+=VarDecl)*)? ')')?
+;
+	
+EventBinding returns EventBinding:
+	{EventBinding}
+	(comment=AnnotationBlock)?
+	'on' trigger=EventTrigger
+	'->' to=Event
+;
+
+EventTrigger:
+	event=EventOnIf;
+	
+EventOnIf:
+	('time' freq=INT    ) |
+	('condition'    condition=LogicalOrExpression     ) |
+	('call'    call=MethodSignature     ) |
+	('event' event=FQN   ) |
+	('signal'  signal=ID )
+;
+
+MethodSignature:
+	name=FQN '(' (arguments+=VarDecl (',' arguments+=VarDecl)*)? ')' (':' ('void' | (returnType=RefableType)))?
+;
+
+Event:
+	name=ID ('('arguments+=ID (',' arguments+=ID)*')')?
+;
+	
+Operation: StandardOperation; //| PortOperation;
+StandardOperation:
+	(comment=AnnotationBlock)?
+	(override?='override')? 'Operation' name=ID '(' (arguments+=VarDecl (',' arguments+=VarDecl)*)? ')' (':' ('void' | (returnType=FTypeRef (array?='[' ']')?)))?  
+		'{' contract=SpecificationBlock detailCode=DetailCode '}'
+;
+VarDecl:
+	name=ID ':' refType=FTypeRef (array?='[' ']')? (varargs?='varargs')?;
+	
+RefableType: type=[FTypeRef|FQN] (ref?='ref')?;
+
+// specifications
+SpecificationBlock:
+	{SpecificationBlock}
+	(comment=AnnotationBlock)?
+	'contract' '{'
+		(contracts+=ContractPair)
+		('also'
+			contracts+=ContractPair
+		)*
+	'}'
+;
+
+ContractPair:
+	{ContractPair} 
+	(req+=Requires)*
+	(ens+=Ensures)*
+;
+
+Requires:
+	'requires' ':' (expr=ContractExpression) ';'
+;
+
+Ensures:
+	'ensures' ':' (expr=ContractExpression) ';'
+;
+
+ContractExpression:
+	STRING
+;
+
+//PortOperation:
+//    'Operation' name=ID '(' (arguments+=VarDecl (',' arguments+=VarDecl)*)? ')' ( (':' ('void' | (returnType=RefableType))) | ('sends' sendsMsg=[Message|ID]) )?
+//            detailCode=DetailCode
+//;
+	
+FStateGraph:
+	{FStateGraph} '{'
+		'initial' initial=[FState|ID]
+		states+=FState*
+	'}';	
+FState:
+	{FState}
+	(comment=AnnotationBlock)?
+	'state' name=ID '{'
+	 	('entry' '{' entryAction=CC_STRING (broadcastEntry=Broadcast)?'}')?
+		('exit' '{' exitAction=CC_STRING (broadcastExit=Broadcast)?'}')?
+		('do' '{' doAction=CC_STRING (boradcastDo=Broadcast)?'}')?
+		transitions+=FTransition*
+	'}';
+	
+FTransition:
+	'on' trigger=FTrigger
+		(guard=FGuard)?
+		'->' to=[FState|ID]
+		('{' action=CC_STRING (broadcast=Broadcast)? '}')?
+	;
+	
+FTrigger:
+	event=FEventOnIf;
+	
+FEventOnIf returns FEventOnIf:
+	{FEventOnIf}
+	('tick') |
+//	('condition'    condition=LogicalOrExpression     ) |
+//	('call'    call=ID_WITH_SELECTOR      ) |
+//	('respond' respond=ID_WITH_SELECTOR   ) |
+//	('error'   error=ID_WITH_SELECTOR     ) |
+//	('signal'  signal=ID_WITH_SELECTOR ) |
+//	('set'     set=ID) |
+//	('update'  update=ID )
+	('event' name=Event)
+;
+
+Broadcast:
+	'emit' signal=ID ('('arguments+=ID (',' arguments+=ID)*')')?
+;
+
+FGuard:
+	'[' condition=LogicalOrExpression ']';
+	
+FTypeRef returns FTypeRef:
+	predefined=FBasicTypeId | derived=[FType|FQN] | interval=FIntegerInterval;
+
+enum FBasicTypeId returns FBasicTypeId:
+	undefined = 'undefined' |
+	Int8 = 'Int8' |
+	UInt8 = 'UInt8' |
+	Int16 = 'Int16' |
+	UInt16 = 'UInt16' |
+	Int32 = 'Int32' |
+	UInt32 = 'UInt32' |
+	Int64 = 'Int64' |
+	UInt64 = 'UInt64' |
+	Boolean = 'Boolean' |
+	String = 'String' |
+	Float = 'Float' |
+	Double = 'Double' |	
+	ByteBuffer = 'ByteBuffer' ;
+	
+FIntegerInterval returns FIntegerInterval:
+	{FIntegerInterval}
+	'Integer' ('(' (lowerBound=INTERVAL_BOUND | 'minInt') ',' (upperBound=INTERVAL_BOUND | 'maxInt') ')')?
+;	
+
+INTERVAL_BOUND returns ecore::EBigInteger:
+	'-'? INT;
+	
+FType returns FType:
+	FArrayType |
+	//FEnumerationType |
+	FStructType |
+	FUnionType |
+	FMapType |
+	FTypeDef;
+	
+FArrayType returns FArrayType:
+	{FArrayType}
+	(comment=AnnotationBlock)?
+	(public?='public')? 'array' name=ID 'of' elementType=FTypeRef;
+
+FTypeDef returns FTypeDef:
+	{FTypeDef}
+	(comment=AnnotationBlock)?
+	(public?='public')? 'typedef' name=ID 'is' actualType=FTypeRef
+	; 
+
+FStructType returns FStructType:
+	{FStructType}
+	(comment=AnnotationBlock)?
+	(public?='public')? 'struct' name=ID
+		(
+			('extends' base=[FStructType|FQN]) |
+			(polymorphic?='polymorphic')
+		)?
+	'{'
+		(elements+=FField)*
+    '}';
+
+FUnionType returns FUnionType:
+	{FUnionType}
+	(comment=AnnotationBlock)?
+	(public?='public')? 'union' name=ID ('extends' base=[FUnionType|FQN])?
+	'{'
+		(elements+=FField)*
+    '}';
+    
+LogicalOrExpression returns FExpression:
+  LogicalAndExpression
+  ({FBinaryOperation.left=current} op=OperatorOr right=LogicalAndExpression)*;
+
+LogicalAndExpression returns FExpression:
+  EqualityExpression
+  ({FBinaryOperation.left=current} op=OperatorAnd right=EqualityExpression)*;
+
+EqualityExpression returns FExpression:
+  RelationalExpression
+  ({FBinaryOperation.left=current} op=OperatorEquality right=RelationalExpression)*;
+
+RelationalExpression returns FExpression:
+  AdditiveExpression
+  ({FBinaryOperation.left=current} op=OperatorRelational right=AdditiveExpression)*;
+
+AdditiveExpression returns FExpression:
+  MultiplicativeExpression
+  ({FBinaryOperation.left=current} op=OperatorAdditive right=MultiplicativeExpression)*;
+
+MultiplicativeExpression returns FExpression:
+  PrimaryExpression
+  ({FBinaryOperation.left=current} op=OperatorMultiplicative right=PrimaryExpression)*;
+
+PrimaryExpression returns FExpression:
+  FUnaryOperation | SimplePrimaryExpression;
+  
+SimplePrimaryExpression returns FExpression:
+  FQualifiedElementRef |
+  //FCurrentError |
+  //FMethodErrorEnumRef |
+  FConstant |
+  '(' LogicalOrExpression ')';
+  
+FUnaryOperation returns FExpression:
+	{FUnaryOperation}
+	op=OperatorUnary operand=SimplePrimaryExpression;
+	
+enum OperatorOr returns FOperator:
+	Or="||"
+;
+enum OperatorAnd returns FOperator:
+	And="&&"
+;
+enum OperatorEquality returns FOperator:
+	Equal="==" | Unequal="!="
+;
+enum OperatorRelational returns FOperator:
+	Smaller="<" | SmallerOrEqual="<=" | GreaterOrEqual=">=" | Greater=">"
+;
+enum OperatorAdditive returns FOperator:
+	addition="+" | subtraction="-"
+;
+enum OperatorMultiplicative returns FOperator:
+	multiplication="*" | division="/"
+;
+enum OperatorUnary returns FOperator:
+	negation="!" | subtraction="-"
+;
+
+FQualifiedElementRef:
+	{FQualifiedElementRef}
+	element=FQN
+	({FQualifiedElementRef.qualifier=current} '-->' field=[FField|ID])*;
+
+FConstant returns FExpression:
+	FFloatConstant |
+	FDoubleConstant |
+	FIntegerConstant |
+	FBooleanConstant |
+	FStringConstant;
+
+FDoubleConstant:
+	val=E_DOUBLE_OBJECT
+;
+
+FFloatConstant:
+	val=E_FLOAT_OBJECT
+;
+
+FIntegerConstant:
+	val=E_BigInteger;
+
+FBooleanConstant:
+	val=EBoolean;
+
+FStringConstant:
+	val=STRING;
+
+//FEnumerationType returns FEnumerationType:
+//	{FEnumerationType}
+//	(comment=AnnotationBlock)?
+//	(public?='public')? 'enumeration' name=ID
+//	('extends' base=[FEnumerationType|FQN])?
+//	'{'
+//		(enumerators+=FEnumerator (','? enumerators+=FEnumerator)*)?
+//    '}';
+//
+//FEnumerationTypeBody returns FEnumerationType:
+//	{FEnumerationType}
+//	('extends' base=[FEnumerationType|FQN])?
+//	'{'
+//		(enumerators+=FEnumerator (','? enumerators+=FEnumerator)*)?
+//    '}';
+//
+//FEnumerator returns FEnumerator:
+//	{FEnumerator}
+//	(comment=AnnotationBlock)?
+//	name=ID ('=' value=AdditiveExpression)?
+//    ;
+    
+FMapType returns FMapType:
+	{FMapType}
+	(comment=AnnotationBlock)?
+	(public?='public')? 'map' name=ID '{'
+		keyType=FTypeRef 'to' valueType=FTypeRef
+	'}';
+
+FField:
+	(comment=AnnotationBlock)?
+	type=FTypeRef (array?='[' ']')? name=ID;
+
+
+FDeclaration:
+	type=FTypeRef (array?='[' ']')? name=ID
+		('=' rhs=FInitializerExpression)?;
+
+FTypedElement:
+	FField |
+	//FAttribute |
+	FArgument |
+	FDeclaration |
+	FConstantDef;
+
+FArgument:
+	(comment=AnnotationBlock)?
+	type=FTypeRef (array?='[' ']')? name=ID;
+	
+FConstantDef:
+	(comment=AnnotationBlock)?
+	'const' type=FTypeRef (array?='[' ']')? name=ID '='
+		rhs=FInitializerExpression
+	;
+
+FInitializerExpression:
+	//LogicalOrExpression |
+	FInitializer;
+
+FInitializer:
+	FCompoundInitializer |
+	FBracketInitializer;
+
+// this is used for struct and union types
+FCompoundInitializer:
+	{FCompoundInitializer}
+	'{' (
+		elements+=FFieldInitializer
+		(',' elements+=FFieldInitializer)*
+	)? '}';
+
+FFieldInitializer:
+	element=[FField|ID] ':' value=FInitializerExpression;
+
+// this is used for array and map types
+FBracketInitializer:
+	{FBracketInitializer}
+	'[' (
+		elements+=FElementInitializer
+		(',' elements+=FElementInitializer)*
+	)? ']';
+
+// for array type initializers, the second element is omitted
+FElementInitializer:
+	{FElementInitializer}
+	first=FInitializerExpression ('=>' second=FInitializerExpression)?;
+	
+
+//StateGraphNode: State | ChoicePoint | TrPoint;
+//StateGraphItem: StateGraphNode | TransitionBase;
+//
+//StateGraph:
+//	{StateGraph}
+//	'{'
+//		(
+//			states+=State |
+//			trPoints+=TrPoint |
+//			chPoints+=ChoicePoint |
+//			transitions+=Transition |
+//			refinedTransitions+=RefinedTransition
+//		)*
+//	'}';
+//	
+//
+//StateMachine returns StateGraph:
+//	{StateGraph}
+//	'StateMachine' '{'
+//		(
+//			states+=State |
+//			trPoints+=TrPoint |
+//			chPoints+=ChoicePoint |
+//			transitions+=Transition |
+//			refinedTransitions+=RefinedTransition
+//		)*
+//	'}';
+//	
+//State: SimpleState | RefinedState;
+//SimpleState:
+//	'State' name=ID (docu=Documentation)? ('{'
+//		annotations+=Annotation*
+//		('entry' entryCode=DetailCode)?
+//		('exit' exitCode=DetailCode)?
+//		('do' doCode=DetailCode)?
+//		('subgraph' subgraph=StateGraph)?
+//	'}')?;
+//RefinedState:
+//	'RefinedState' target=[State|FQN] (docu=Documentation)? '{'
+//		annotations+=Annotation*
+//		('entry' entryCode=DetailCode)?
+//		('exit' exitCode=DetailCode)?
+//		('do' doCode=DetailCode)?
+//		('subgraph' subgraph=StateGraph)?
+//	'}';
+// the detail level (or target language) code
+// the used flag might be used when overriding in derived grammars
+DetailCode: {DetailCode}
+	(lines+=CC_STRING?) | (used?='{' lines+=STRING* '}')
+;
+	
+AnnotationBlock returns AnnotationBlock:
+	'/*' (elements+=Annotation)+ '*/';
+	
+Annotation returns Annotation:
+	rawText=ANNOTATION_STRING;
+	
+terminal ANNOTATION_STRING returns ecore::EString:
+	'@' (('a'..'z')|'-')+ (' '|'\t')* ':'
+	( ('\\' ('b'|'t'|'n'|'f'|'r'|'u'|'"'|"'"|'\\')) | ('\\*'|'\\@') | !('\\'|'*'|'@') )*
+;
+	
+Import :
+	'import' (importedNamespace=ImportedFQN 'from' | 'model') importURI=STRING ('as' alias=ID)? ';';
+
+ImportedFQN:
+	FQN ('.' '*')?;
+
+FQN:
+	ID ('.' ID)*;
+
+// this is used for overloaded FMethod and FBroadcast
+ID_WITH_SELECTOR:
+	ID (':' ID)?;
+	
+terminal CC_STRING:
+	"'''" -> "'''";
+EBoolean returns ecore::EBoolean:
+	'false' | 'true';
+
+E_BigInteger returns ecore::EBigInteger:
+	INT 
+;
+
+terminal E_DOUBLE_OBJECT returns ecore::EDoubleObject :
+	 INT '.' INT ('e' '-'? INT)? 'd'
+;
+terminal E_FLOAT_OBJECT returns ecore::EFloatObject :
+	 INT '.' INT ('e' '-'? INT)? 'f'
+;

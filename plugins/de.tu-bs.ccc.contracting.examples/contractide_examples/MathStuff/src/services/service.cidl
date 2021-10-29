@@ -9,7 +9,7 @@ interface IMath {
 	method abs {
 	 	contract {
 			requires: "true";
-			ensures: "(a >= 0 => res == a) && (a < 0 ==> res == (-1)*a)";
+			ensures: "(a >= 0 => res == a) && (a < 0 => res == (-1)*a)";
 	 	}
 	 	in {
 			UInt32 a
@@ -22,9 +22,7 @@ interface IMath {
 	method isqrt {
 	 	contract {
 			requires: "y>=0";
-			ensures: "IMath.abs(res) <= y
-					  && res * res <= y
-					  && y < (IMath.abs(res) + 1) * (IMath.abs(res) + 1)";
+			ensures: "IMath.abs(res) <= y && res * res <= y && y < (IMath.abs(res) + 1) * (IMath.abs(res) + 1)";
 	 	}
 	 	in {
 			UInt32 y
@@ -37,7 +35,7 @@ interface IMath {
 	method max_array {
 	 	contract {
 			requires: "true";
-			ensures: "res == (\max int i; 0 <= i && i < arr.length; arr[i])";
+			ensures: "res == (\max int i; 0;arr.length; arr[i])";
 	 	}
 	 	in {
 			UInt32[] arr
@@ -68,7 +66,7 @@ interface IMath {
 	method min {
 	 	contract {
 			requires: "true";
-			ensures: "(a<b ==> res==b) && (a>=b ==> res==a)";
+			ensures: "(a<b => res==b) && (a>=b => res==a)";
 	 	}
 		in {
 			UInt32 i1
@@ -84,7 +82,7 @@ interface IMath {
 	method sum {
 	 	contract {
 			requires: "true";
-			ensures: "res == (\sum int i; 0 <= i && i < arr.length; arr[i]);";
+			ensures: "res == (\sum int i; 0; arr.length; arr[i])";
 	 	}
 		in {
 			UInt32[] arr
@@ -97,7 +95,7 @@ interface IMath {
 	method product {
 	 	contract {
 			requires: "true";
-			ensures: "res == (\product int i; 0 <= i && i < arr.length; arr[i]);";
+			ensures: "res == (\product int i; 0; arr.length; arr[i])";
 	 	}
 		in {
 			UInt32[] arr
@@ -110,7 +108,7 @@ interface IMath {
 	method exp {
 	 	contract {
 			requires: "n>0";
-			ensures: "res == (\product int i; 0 <= i && i < n; a);";
+			ensures: "res == (\product int i; 0; n; a)";
 	 	}
 		in {
 			UInt32 a
@@ -124,7 +122,7 @@ interface IMath {
 	method factorial {
 	 	contract {
 			requires: "n>0";
-			ensures: "res == (\product int i; 0 < i && i <= n; n);";
+			ensures: "res == (\product int i; 0; n; n)";
 			also
 			requires: "n == 0";
 			ensures: "res == 1";

@@ -12,6 +12,7 @@ import org.eclipse.swt.widgets.Text;
 
 import de.tu_bs.ccc.contracting.Verification.Ports;
 import de.tu_bs.ccc.contracting.Verification.ProviderType;
+import de.tu_bs.ccc.contracting.edl.events.EventType;
 import de.tu_bs.ccc.contracting.idl.cidl.Interface;
 import de.tu_bs.ccc.contracting.ui.localization.StringTable;
 
@@ -23,8 +24,8 @@ public class EditProviderPortFeatureDialog extends EditPortFeatureDialog {
 	private int currentMaxClients;
 	private int currentProviderType;
 
-	public EditProviderPortFeatureDialog(Shell parentShell, List<String> types, List<Interface> interfaces) {
-		super(parentShell, types, interfaces);
+	public EditProviderPortFeatureDialog(Shell parentShell, List<String> types, List<Interface> interfaces, List<EventType> events) {
+		super(parentShell, types, interfaces, events);
 	}
 
 	protected void createMaxClients(Composite container) {

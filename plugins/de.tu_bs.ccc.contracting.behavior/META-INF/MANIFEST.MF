@@ -1,0 +1,29 @@
+Manifest-Version: 1.0
+Automatic-Module-Name: de.tu_bs.ccc.contracting.behavior
+Bundle-ManifestVersion: 2
+Bundle-Name: de.tu_bs.ccc.contracting.behavior
+Bundle-Vendor: My Company
+Bundle-Version: 1.0.0.qualifier
+Bundle-SymbolicName: de.tu_bs.ccc.contracting.behavior; singleton:=true
+Bundle-ActivationPolicy: lazy
+Require-Bundle: org.eclipse.xtext,
+ org.eclipse.xtext.xbase,
+ org.eclipse.equinox.common;bundle-version="3.5.0",
+ org.eclipse.emf.ecore,
+ org.eclipse.xtext.xbase.lib;bundle-version="2.14.0",
+ org.eclipse.xtext.util,
+ org.eclipse.emf.common,
+ org.antlr.runtime;bundle-version="[3.2.0,3.2.1)"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Export-Package: de.tu_bs.ccc.contracting.serializer,
+ de.tu_bs.ccc.contracting.services,
+ de.tu_bs.ccc.contracting.parser.antlr.internal,
+ de.tu_bs.ccc.contracting.behavior.util,
+ de.tu_bs.ccc.contracting.parser.antlr,
+ de.tu_bs.ccc.contracting.validation,
+ de.tu_bs.ccc.contracting.scoping,
+ de.tu_bs.ccc.contracting.behavior,
+ de.tu_bs.ccc.contracting,
+ de.tu_bs.ccc.contracting.generator,
+ de.tu_bs.ccc.contracting.behavior.impl
+Import-Package: org.apache.log4j

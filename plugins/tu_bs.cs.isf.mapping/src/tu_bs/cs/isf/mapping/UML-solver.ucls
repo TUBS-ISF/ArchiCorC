@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.2.3" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
+  associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
+  <package id="1" language="java" name="tu_bs.cs.isf.mapping.solver" project="tu_bs.cs.isf.mapping" 
+    file="/tu_bs.cs.isf.mapping/src/tu_bs/cs/isf/mapping/solver" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="533" width="968" x="59" y="21"/>    
+    <display autosize="false" stereotype="true" sort-features="false" accessors="true"/>  
+  </package>  
+  <class id="2" language="java" name="tu_bs.cs.isf.mapping.validation.Console" project="tu_bs.cs.isf.mapping" 
+    file="/tu_bs.cs.isf.mapping/src/tu_bs/cs/isf/mapping/validation/Console.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="143" y="90"/>    
+    <display autosize="true" stereotype="true" package="false" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="false">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="3" language="java" name="tu_bs.cs.isf.mapping.solver.CreateStubsForService" project="tu_bs.cs.isf.mapping" 
+    file="/tu_bs.cs.isf.mapping/src/tu_bs/cs/isf/mapping/solver/CreateStubsForService.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="314" y="101"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="4" language="java" name="tu_bs.cs.isf.mapping.solver.KeyProve" project="tu_bs.cs.isf.mapping" 
+    file="/tu_bs.cs.isf.mapping/src/tu_bs/cs/isf/mapping/solver/KeyProve.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="162" y="220"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="5" language="java" name="tu_bs.cs.isf.mapping.solver.Prover" project="tu_bs.cs.isf.mapping" 
+    file="/tu_bs.cs.isf.mapping/src/tu_bs/cs/isf/mapping/solver/Prover.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="161" y="357"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="6" language="java" name="tu_bs.cs.isf.mapping.solver.Encoding" project="tu_bs.cs.isf.mapping" 
+    file="/tu_bs.cs.isf.mapping/xtend-gen/tu_bs/cs/isf/mapping/solver/Encoding.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="513" y="102"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <package id="7" language="java" name="tu_bs.cs.isf.mapping.validation" project="tu_bs.cs.isf.mapping" 
+    file="/tu_bs.cs.isf.mapping/src/tu_bs/cs/isf/mapping/validation" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="387" width="435" x="1047" y="27"/>    
+    <display autosize="false" stereotype="true" sort-features="false" accessors="true"/>  
+  </package>  
+  <class id="8" language="java" name="tu_bs.cs.isf.mapping.validation.FileFinder" project="tu_bs.cs.isf.mapping" 
+    file="/tu_bs.cs.isf.mapping/src/tu_bs/cs/isf/mapping/validation/FileFinder.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="117" width="185" x="995" y="58"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="9" language="java" name="tu_bs.cs.isf.mapping.validation.AbstractMappingValidator" 
+    project="tu_bs.cs.isf.mapping" 
+    file="/tu_bs.cs.isf.mapping/src-gen/tu_bs/cs/isf/mapping/validation/AbstractMappingValidator.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="99" width="181" x="1236" y="68"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="10" language="java" name="tu_bs.cs.isf.mapping.validation.MappingConfigurableIssueCodesProvider" 
+    project="tu_bs.cs.isf.mapping" 
+    file="/tu_bs.cs.isf.mapping/src-gen/tu_bs/cs/isf/mapping/validation/MappingConfigurableIssueCodesProvider.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="135" width="259" x="1233" y="175"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="11" language="java" name="tu_bs.cs.isf.mapping.validation.CideMethods" project="tu_bs.cs.isf.mapping" 
+    file="/tu_bs.cs.isf.mapping/xtend-gen/tu_bs/cs/isf/mapping/validation/CideMethods.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="117" width="362" x="889" y="214"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="12" language="java" name="tu_bs.cs.isf.mapping.validation.CorcMethods" project="tu_bs.cs.isf.mapping" 
+    file="/tu_bs.cs.isf.mapping/xtend-gen/tu_bs/cs/isf/mapping/validation/CorcMethods.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="171" width="298" x="1037" y="377"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="13" language="java" name="tu_bs.cs.isf.mapping.validation.CorrectMappingPair" 
+    project="tu_bs.cs.isf.mapping" 
+    file="/tu_bs.cs.isf.mapping/xtend-gen/tu_bs/cs/isf/mapping/validation/CorrectMappingPair.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="135" width="392" x="1226" y="329"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="14" language="java" name="tu_bs.cs.isf.mapping.validation.MappingValidator" project="tu_bs.cs.isf.mapping" 
+    file="/tu_bs.cs.isf.mapping/xtend-gen/tu_bs/cs/isf/mapping/validation/MappingValidator.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1283" y="266"/>    
+    <display autosize="true" stereotype="true" package="false" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <dependency id="15">    
+    <end type="SOURCE" refId="14"/>    
+    <end type="TARGET" refId="11"/>  
+  </dependency>  
+  <dependency id="16">    
+    <end type="SOURCE" refId="14"/>    
+    <end type="TARGET" refId="12"/>  
+  </dependency>  
+  <dependency id="17">    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="2"/>  
+  </dependency>  
+  <realization id="18">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="5"/>  
+  </realization>  
+  <dependency id="19">    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="8"/>  
+  </dependency>  
+  <dependency id="20">    
+    <end type="SOURCE" refId="14"/>    
+    <end type="TARGET" refId="4"/>  
+  </dependency>  
+  <dependency id="21">    
+    <end type="SOURCE" refId="14"/>    
+    <end type="TARGET" refId="8"/>  
+  </dependency>  
+  <dependency id="22">    
+    <end type="SOURCE" refId="14"/>    
+    <end type="TARGET" refId="2"/>  
+  </dependency>  
+  <dependency id="23">    
+    <end type="SOURCE" refId="14"/>    
+    <end type="TARGET" refId="3"/>  
+  </dependency>  
+  <dependency id="24">    
+    <end type="SOURCE" refId="14"/>    
+    <end type="TARGET" refId="5"/>  
+  </dependency>  
+  <dependency id="25">    
+    <end type="SOURCE" refId="14"/>    
+    <end type="TARGET" refId="13"/>  
+  </dependency>  
+  <generalization id="26">    
+    <end type="SOURCE" refId="14"/>    
+    <end type="TARGET" refId="9"/>  
+  </generalization>  
+  <dependency id="27">    
+    <end type="SOURCE" refId="14"/>    
+    <end type="TARGET" refId="6"/>  
+  </dependency>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    sort-features="false" accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true" static="true"/>    
+    <operations public="true" package="true" protected="true" private="true" static="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>
